@@ -25,3 +25,14 @@ AS
 SELECT Name, Room, Building, Operating_Hours, Address, Time, Rating, Student_id, Tutor_id FROM `Location`
 INNER JOIN (SELECT * FROM Sessions) AS T3 
 ON T3.location_id = Location.id;
+-- This view is used to collate the sessions and their location information, so that you can potentially correlate session rating with location.
+
+
+CREATE VIEW course_prereq_data
+AS 
+SELECT id AS course1_id, name AS course1_name, subject AS course1_subject, difficulty AS course1_difficulty,
+course2_id, course2_name, course2_subject, course2_difficulty FROM Course
+INNER JOIN (SELECT course_id AS other_id, id AS course2_id, name AS course2_name, subject AS course2_subject, difficulty AS course2_difficulty FROM Course
+			INNER JOIN (SELECT * FROM Prerequisite) AS T2 ON Course.id = T2.prerequisite_id) AS T1
+ON Course.id = other_id;
+-- This view is used to gather all course prerequisite data together, so that you don't have to query for all that information directly.
