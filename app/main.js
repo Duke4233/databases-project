@@ -3,14 +3,13 @@ const handlebarsFactory = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const config = require('./config');
-const router = express.Router();
-
 const app = express();
+
 app.use('/res', express.static('assets'));
 
 const handlebars = handlebarsFactory.create({
-    defaultLayout: 'main',
-    extname: '.template',
+    defaultLayout: 'wrapper',
+    extname: '.hbs',
     helpers: {
         ifeq: function(a, b, options) {
             if (a === b) {
@@ -21,8 +20,8 @@ const handlebars = handlebarsFactory.create({
     }
 });
 
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
+app.engine('hbs', handlebars.engine);
+app.set('view engine', 'hbs');
 
 app.use((req, res, next) => {
     let conn = mysql.createConnection({
@@ -38,14 +37,13 @@ app.use((req, res, next) => {
     });
 });
 
-
-// Application routers
-app.get('/', function (req, res) {
-  res.send('GET request to the homepage')
-})
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(23411, () => {
-	console.log("App available on https://flipX.access.engr.oregonstate.edu:23411");
+app.get('/', (req, res, next) => {
+	res.render('home');
+});
+
+// Start our server
+app.listen(21213, () => {
+    console.log('App started at http://flipX.engr.oregonstate.edu:21213');
 });
