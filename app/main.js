@@ -39,8 +39,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res, next) => {
-	res.render('home');
+app.get('/', (req, res) => {
+	res.render('home', {title: 'Home Page'});
 });
 
 // Start our server
