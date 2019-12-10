@@ -47,8 +47,21 @@ app.get('/tutors', (req, res) => {
 	res.render('tutors', {title: 'Tutors'});
 });
 
-app.get('/courses', (req, res) => {
-	res.render('courses', {title: 'Courses'});
+app.get('/courses', (req, res, next) => {
+    req.db.query(
+    `
+    SELECT * FROM Course
+    `,
+    (err, data) => {
+        if (err) {
+            return next(err);
+	}
+		
+	res.render('courses', {
+	    title: 'View courses',
+	    courses: data
+	});
+    });
 });
 
 app.get('/account', (req, res) => {
