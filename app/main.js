@@ -40,7 +40,23 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-	res.render('home', {title: 'Home Page'});
+	res.render('home', {title: 'Welcome to the Tutor Management System'});
+});
+
+app.get('/tutors', (req, res) => {
+	res.render('tutors', {title: 'Tutors'});
+});
+
+app.get('/courses', (req, res) => {
+	res.render('courses', {title: 'Courses'});
+});
+
+app.get('/account', (req, res) => {
+	res.render('account', {title: 'Account'});
+});
+
+app.get('/login', (req, res) => {
+	res.render('login', {title: 'Login'});
 });
 
 // Start our server
